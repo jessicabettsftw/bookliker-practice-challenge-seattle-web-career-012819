@@ -18,13 +18,11 @@ function addBook(book, list){
   let li = document.createElement("li")
   li.textContent = book.title
 
-  let button = document.createElement("button")
-  button.addEventListener('click', () => {
+  li.addEventListener('click', () => {
     let contentArea = document.getElementById("show-panel")
     renderBook(book, contentArea)
   })
 
-  li.appendChild(button)
   list.appendChild(li)
 }
 
@@ -39,16 +37,17 @@ function renderBook(book, div){
   let description = document.createElement("p")
   description.textContent = book.description
 
+  let users = document.createElement("div")
+  users.id = 'users'
+  users.className = 'hidden'
+
   let button = document.createElement('button')
   button.textContent = 'Read Book'
   button.addEventListener('click', () => {
-    displayUsers();
+    displayUsers(users);
   })
 
-  let users = document.createElement("div")
-  users.id = 'users'
-  users.textContent = 'test'
-  users.className = 'hidden'
+  getUsers(book, users);
 
   div.appendChild(title);
   div.appendChild(img);
@@ -58,10 +57,20 @@ function renderBook(book, div){
 
 }
 
-
-function displayUsers(){
-
+function displayUsers(users){
+  if (users.className == 'hidden') {
+    users.className = 'block'
+  } else {
+    users.className = 'hidden'
+  }
 }
 
+function getUsers(book, users){
+  book.users.forEach( user => {
+    let li = document.createElement('li')
+    li.textContent = user.username
+    users.appendChild(li)
+  })
+}
 
 getBooks(list);
